@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Note: To access redux-thunk code, checkout to branch `redux-thunk`
+
 ## Available Scripts
 
 In the project directory, you can run:
