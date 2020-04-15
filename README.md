@@ -1,4 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Redux Sagas config setup is on `master` branch
+Redux Thunk config setup is on `redux-thunk` branch
+Feel free to use whichever you like depending upon the project's requirement.
 
 ## Note: To access redux-thunk code, checkout to branch `redux-thunk`
 
