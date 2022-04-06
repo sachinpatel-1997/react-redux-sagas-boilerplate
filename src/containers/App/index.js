@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { interceptor } from 'utils/interceptor'
-import HomeContainer from 'containers/Home/homeContainer'
+import SqllabContainer from 'containers/Sqllab'
 
 export default function App() {
   interceptor()
   return (
     <Fragment>
       <Switch>
-        <Route exact path="/" component={HomeContainer} />
+        <Route exact path="/sqllab" component={SqllabContainer} />
       </Switch>
     </Fragment>
   )

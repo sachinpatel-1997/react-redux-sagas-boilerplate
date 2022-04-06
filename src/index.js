@@ -9,6 +9,7 @@ import configureStore from './store'
 import './index.css'
 import 'react-toastify/dist/ReactToastify.css'
 import browserHistory from 'utils/history'; 
+import Layout from 'common/Layout'
 // import { initializeFirebase, askForPermissionToReceiveNotifications } from './push-notification'
 // import * as firebase from 'firebase'
 
@@ -18,7 +19,9 @@ ReactDOM.render((
   <Provider store={store}>
     <Router history={browserHistory}>
       <Suspense fallback={'Loading...'}>
-        <App />
+        <Layout>
+          <App />
+        </Layout>
       </Suspense>
     </Router>
   </Provider>
