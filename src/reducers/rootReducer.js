@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import authReducer from './authReducer'
+// import authReducer from './authReducer'
+import sqlReducer from './sqlReducer'
+
 import { reducer as formReducer } from 'redux-form'
 
 const appReducer = combineReducers({
   routing: routerReducer,
-  auth: authReducer,
+  // auth: authReducer,
+  sqllab: sqlReducer,
   form: formReducer
 })
 

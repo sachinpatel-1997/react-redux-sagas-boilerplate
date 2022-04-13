@@ -1,61 +1,67 @@
-import React,{ useState } from 'react';
-import AceEditor from "react-ace";
-// import {FullSQLEditor as AsyncAceEditor} from './AysncAceEditor';
-import "ace-builds/src-noconflict/mode-sql";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/ext-language_tools"
+import React,{ useEffect, useState } from 'react';
+import AceEditorWrapper from './AceEditorWrapper';
 import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDatabase, getData } from 'middleware/sqllab'
 const SqllabComponent = () => {
    const [ sql, setSql ] = useState(null)
-   const [ show, showTable ] = useState(null)
+   const dispatch = useDispatch()
+   const {database} = useSelector((state) => state.sqllab.database)
+   const data = useSelector((state) => state.sqllab.data)
+
+   const tableData = database?.tables || {}
+   useEffect(() => {
+      dispatch(getDatabase())
+   },[])
+
+
+   const columns = {
+      id: null,
+      name: null
+   }
+
+   const extendedTables = []
+
    const onChange = (newValue) => {
       setSql(newValue)
    }
 
-   const isValid = () => {
-      return sql === 'select * from order'
+   const getId = () => {
+      if(sql){
+         if(sql.toLowerCase().trim() === 'select * from person')
+           return 'Person'
+         else if (sql.toLowerCase().trim() === 'select * from product')
+           return 'Product'
+         else
+          return null
+      }
+      
    }
 
    const runQuery = () => {
-      showTable(isValid())
+      dispatch(getData(getId()))
    }
-
-   return(
+      return(
    <div>
       Sqllab Editor
-
-      {/* <AsyncAceEditor
-        onLoad={() => {}}
-        onBlur={() => {}}
-        height={200}
-        onChange={onChange}
-        width="100%"
-        editorProps={{ $blockScrolling: true }}
-        enableLiveAutocompletion={true}
-      //   annotations={this.getAceAnnotations()}
-      /> */}
-      <AceEditor
+      <AceEditorWrapper
          value={sql}
-         mode="sql"
-         theme="github"
-         fontSize={16}
-         onChange={onChange}
-         name="UNIQUE_ID_OF_DIV"
-         editorProps={{ $blockScrolling: true }}
-         setOptions={{
-         enableBasicAutocompletion: true,
-         enableLiveAutocompletion: true,
-         enableSnippets: true
-         }}
+         tables={tableData}
+         extendedTables={extendedTables}
+         columns={ columns }
+         handleChange={onChange}
+         schemas={[]}
       />
       <Button onClick={runQuery}>Run</Button>
       <Button variant="outline-primary">Save Query</Button>
-      {show ? <table>
-         <tr><th>ID</th><th>Name</th></tr>
-         <tr><td>1</td><td>#order123</td></tr>
-         <tr><td>2</td><td>#order123</td></tr>
-
-      </table> : <p>No records found</p>}
+      {!data && <p>No records found</p>}
+      <table>{
+           data?.map((item) => {
+            return <tr><td>{item.id}</td><td>{item.name}</td></tr>
+           })
+         }
+       
+      </table>
    </div>
    )
 }
