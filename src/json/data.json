@@ -1,0 +1,25 @@
+{
+
+    "Person": [{
+        "id": 1,
+        "name": "Mahip"
+    },{
+        "id": 2,
+        "name": "Noopur"
+    },{
+        "id": 3,
+        "name": "Satyam"
+    }],
+
+    "Product": [{
+        "id": 1,
+        "name": "headphone"
+    },{
+        "id": 2,
+        "name": "Fan"
+       
+    },{
+        "id": 3,
+        "name": "Televison"
+    }]
+ }

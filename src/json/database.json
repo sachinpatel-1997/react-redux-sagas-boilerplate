@@ -1,0 +1,30 @@
+{
+
+   "database": {
+        "name": "example",
+        "tables": [{
+            "extra": null,
+            "label": "Person",
+            "schema": "public",
+            "title": "Person",
+            "type": "table",
+            "value": "Person",
+            "columns": {
+                "id": null,
+                "name": null
+            }
+         },{
+            "extra": null,
+            "label": "Product",
+            "schema": "public",
+            "title": "Product",
+            "type": "table",
+            "value": "Product",
+            "columns": {
+                "id": null,
+                "name": null,
+                "product_type": null
+            }
+         }]
+   }
+}
