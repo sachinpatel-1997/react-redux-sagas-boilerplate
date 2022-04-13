@@ -12,3 +12,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.react-flow{
+  overflow: unset;
+}
+
+.react-flow__minimap{
+  position: initial;
+}
+.react-flow {
+  height: 80vh;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.diagram-component{
+  height: 100vh;
+  overflow: auto;
+}
