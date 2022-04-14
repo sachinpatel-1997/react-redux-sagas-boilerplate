@@ -10,9 +10,11 @@ import { TABLE_AUTOCOMPLETE_SCORE,
     SCHEMA_AUTOCOMPLETE_SCORE
 } from 'constants/index'
 import sqlKeywords from 'utils/sqlKeywords'
+import { FullSQLEditor as AsyncAceEditor } from './AsyncAceEditor';
+
 const AceEditorWrapper = (props) => {
 
-   const { tables, columns, schemas, handleChange, extendedTables, sql } = props
+   const { tables, columns, schemas,handleColumns, handleChange, extendedTables, sql } = props
    const [ words, setWords ] = useState([])
  
    const setAutoCompleter = useCallback((tables) => {
@@ -48,7 +50,9 @@ const AceEditorWrapper = (props) => {
 
         const completer = {
         insertMatch: (editor, data) => {
-            // executing https://github.com/thlorenz/brace/blob/3a00c5d59777f9d826841178e1eb36694177f5e6/ext/language_tools.js#L1448
+            if (data.meta === 'table') {
+                handleColumns(data)
+            }
             editor.completer.insertMatch(
             `${data.caption || data.name}${
                 ['function', 'schema'].includes(data.meta) ? '' : ' '
@@ -80,34 +84,28 @@ const AceEditorWrapper = (props) => {
         tables.length > 0 && setAutoCompleter(tables)
       },[setAutoCompleter, tables])
    
-   const myCompleter = {
-      getCompletions: ((editor, session, pos, prefix, callback) => {
-            if (!Number.isNaN(parseInt(prefix, 10))) {
-                return;
-            }
-            if ((session.getMode()).$id === 'ace/mode/sql') {
-                callback(null, words);
-            }
-        })
-   }
-   const langTools = acequire('ace/ext/language_tools');
-   langTools.addCompleter(myCompleter)
    return(
    <div>
-       <AceEditor
-         value={sql}
-         mode="sql"
-         theme="github"
-         fontSize={16}
-         onChange={handleChange}
-         name="UNIQUE_ID_OF_DIV"
-         editorProps={{ $blockScrolling: true }}
-         setOptions={{
-         enableBasicAutocompletion: true,
-         enableLiveAutocompletion: true,
-         enableSnippets: true
-         }}
+
+    <AsyncAceEditor
+        keywords={ words }
+        onLoad={() => {}}
+        onBlur={() => {}}
+        value={sql}
+        height={200}
+        fontSize={15}
+        onChange={handleChange}
+        extendedTables={extendedTables}
+        columns={ columns }
+        handleColumns={handleColumns}
+        width="100%"
+        schemas={[]}
+        editorProps={{ $blockScrolling: true }}
+        enableLiveAutocompletion={true}
+        
+      //   annotations={this.getAceAnnotations()}
       />
+
    </div>
    )
 }

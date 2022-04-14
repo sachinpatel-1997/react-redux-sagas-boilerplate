@@ -7,18 +7,17 @@ const SqllabComponent = () => {
    const [ sql, setSql ] = useState(null)
    const dispatch = useDispatch()
    const {database} = useSelector((state) => state.sqllab.database)
+   const [ columns , setColumns ] = useState({
+      id: null,
+      name: null
+   })
    const data = useSelector((state) => state.sqllab.data)
 
-   const tableData = database?.tables || {}
+   const tableData = database?.tables || []
    useEffect(() => {
       dispatch(getDatabase())
    },[])
 
-
-   const columns = {
-      id: null,
-      name: null
-   }
 
    const extendedTables = []
 
@@ -41,12 +40,36 @@ const SqllabComponent = () => {
    const runQuery = () => {
       dispatch(getData(getId()))
    }
-      return(
-   <div>
-      Sqllab Editor
+   const handleTableChange = (e) => {
+      const column = tableData.filter((item) => item.label ===e.target.value)[0] || {}
+      setColumns({ ... column.columns })
+   }
+   const handleColumns = (data) => {
+      const column = tableData.filter((item) => item.label ===data.name)[0] || {}
+      setColumns({ ... column.columns })
+   }
+   return(
+   <div className='row'>
+      <div className='col-3'>
+         <label>select database</label>
+         <select><option>example</option></select><br/>
+
+         <label>select tables</label>
+         <select onChange={ handleTableChange }>
+            {
+               tableData.map((item) =>  <option value={item.label} >{item.label}</option>)
+            }
+         </select>
+
+         <ul>{
+            Object.keys(columns).map((d) => <li>{d}</li>)
+            }</ul>
+      </div>
+      <div className='col-9'>
       <AceEditorWrapper
          value={sql}
          tables={tableData}
+         handleColumns={handleColumns}
          extendedTables={extendedTables}
          columns={ columns }
          handleChange={onChange}
@@ -62,6 +85,7 @@ const SqllabComponent = () => {
          }
        
       </table>
+      </div>
    </div>
    )
 }
