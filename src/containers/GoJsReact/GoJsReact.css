@@ -13,3 +13,14 @@ p {
 .diagram-component{
   height: 400px;
 }
+
+.flexBox{
+  display: flex;
+}
+
+.leftBar{
+  width: 20%;
+}
+.erd{
+  width: 80%;
+}

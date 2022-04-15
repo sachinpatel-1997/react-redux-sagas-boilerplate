@@ -1,15 +1,18 @@
-import * as go from 'gojs';
-import { ReactDiagram } from 'gojs-react';
 import * as React from 'react';
+import * as go from 'gojs';
+import { ReactDiagram, ReactOverview } from 'gojs-react';
 
 export class DiagramWrapper extends React.Component {
   /**
    * Ref to keep a reference to the component, which provides access to the GoJS diagram via getDiagram().
    */
 
+  /** @internal */
   constructor(props) {
     super(props);
-    console.log('11111111 props', props)
+    this.state = {
+      observed: null
+    };
     this.diagramRef = React.createRef();
   }
 
@@ -23,7 +26,8 @@ export class DiagramWrapper extends React.Component {
     if (!this.diagramRef.current) return;
     const diagram = this.diagramRef.current.getDiagram();
     if (diagram instanceof go.Diagram) {
-      diagram.addDiagramListener('ChangedSelection', this.props.onDiagramEvent);
+      this.setState({ observed: diagram });
+      diagram.addDiagramListener('ChangedSelection', this.props.onDiagramChange);
     }
   }
 
@@ -35,7 +39,8 @@ export class DiagramWrapper extends React.Component {
     if (!this.diagramRef.current) return;
     const diagram = this.diagramRef.current.getDiagram();
     if (diagram instanceof go.Diagram) {
-      diagram.removeDiagramListener('ChangedSelection', this.props.onDiagramEvent);
+      this.setState({ observed: null });
+      diagram.removeDiagramListener('ChangedSelection', this.props.onDiagramChange);
     }
   }
 
@@ -48,9 +53,9 @@ export class DiagramWrapper extends React.Component {
 
   initDiagram() {
     const $ = go.GraphObject.make;
-    // set your license key here before creating the diagram: go.Diagram.licenseKey = "...";
+    // set your license key here before creating the myDiagram: go.Diagram.licenseKey = "...";
     // the template for each attribute in a node's array of item data
-    const diagram =
+    const myDiagram =
       $(go.Diagram,
         {
           'undoManager.isEnabled': true,  // must be set to allow for model change listening
@@ -80,6 +85,7 @@ export class DiagramWrapper extends React.Component {
             })
         });
 
+    // the template for each attribute in a node's array of item data
     var itemTempl =
       $(go.Panel, "Horizontal",
         $(go.Shape,
@@ -95,9 +101,8 @@ export class DiagramWrapper extends React.Component {
           new go.Binding("text", "name"))
       );
 
-
-    // define a simple Node template
-    diagram.nodeTemplate =
+    // define the Node template, representing an entity
+    myDiagram.nodeTemplate =
       $(go.Node, "Auto",  // the whole node panel
         {
           selectionAdorned: true,
@@ -145,9 +150,8 @@ export class DiagramWrapper extends React.Component {
         )  // end Table Panel
       );  // end Node
 
-    // relinking depends on modelData
     // define the Link template, representing a relationship
-    diagram.linkTemplate =
+    myDiagram.linkTemplate =
       $(go.Link,  // the whole link panel
         {
           selectionAdorned: true,
@@ -178,24 +182,39 @@ export class DiagramWrapper extends React.Component {
             segmentOffset: new go.Point(NaN, NaN),
             segmentOrientation: go.Link.OrientUpright
           },
-          new go.Binding("text", "toText"))
+          new go.Binding("text", "toText")),
+        // $(go.Shape, {},
+        //   new go.Binding("toArrow", "toArrow")),
       );
 
-    return diagram;
+    return myDiagram;
+  }
+
+  initOverview() {
+    const $ = go.GraphObject.make;
+    const overview = $(go.Overview, { contentAlignment: go.Spot.Center });
+    return overview;
   }
 
   render() {
     return (
-      <ReactDiagram
-        ref={this.diagramRef}
-        divClassName='diagram-component'
-        initDiagram={this.initDiagram}
-        nodeDataArray={this.props.nodeDataArray}
-        linkDataArray={this.props.linkDataArray}
-        modelData={this.props.modelData}
-        onModelChange={this.props.onModelChange}
-        skipsDiagramUpdate={this.props.skipsDiagramUpdate}
-      />
+      <>
+        <ReactDiagram
+          ref={this.diagramRef}
+          divClassName='diagram-component'
+          initDiagram={this.initDiagram}
+          nodeDataArray={this.props.nodeDataArray}
+          linkDataArray={this.props.linkDataArray}
+          modelData={this.props.modelData}
+          onModelChange={this.props.onModelChange}
+          skipsDiagramUpdate={this.props.skipsDiagramUpdate}
+        />
+        <ReactOverview
+          initOverview={this.initOverview}
+          divClassName="overview-component"
+          observedDiagram={this.state.observed}
+        />
+      </>
     );
   }
 }

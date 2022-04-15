@@ -15,7 +15,7 @@ class Gojs extends React.Component {
         { key: 0, text: "Alpha", color: "lightblue", loc: "0 0" },
         { key: 1, text: "Beta", color: "orange", loc: "150 0" },
         { key: 2, text: "Gamma", color: "lightgreen", loc: "0 150" },
-        { key: 3, text: "Delta", color: "pink", loc: "150 150" }
+        { key: 3, text: "Delta", color: "pink", loc: "150 150"  }
       ],
       linkDataArray: [
         { key: -1, from: 0, to: 1 },

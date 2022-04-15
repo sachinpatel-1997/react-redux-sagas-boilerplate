@@ -1,60 +1,98 @@
-import * as go from 'gojs';
 import * as React from 'react';
+import * as go from 'gojs';
+import { produce } from "immer";
 
 import { DiagramWrapper } from './components/DiagramWrapper';
+import { NODE_DATA_ARRAY, LINK_DATA_ARRAY } from './Constant'
+
+import './GoJsReact.css'
 
 class GoJsReact extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // ...
-      nodeDataArray: [
-        {
-          key: "Products",
-          items: [{ name: "ProductID", iskey: true, figure: "Decision", color: 'red' },
-          { name: "ProductName", iskey: false, figure: "Hexagon", color: 'blue' },
-          { name: "SupplierID", iskey: false, figure: "Decision", color: "purple" },
-          { name: "CategoryID", iskey: false, figure: "Decision", color: "purple" }]
-        },
-        {
-          key: "Suppliers",
-          items: [{ name: "SupplierID", iskey: true, figure: "Decision", color: 'red' },
-          { name: "CompanyName", iskey: false, figure: "Hexagon", color: 'blue' },
-          { name: "ContactName", iskey: false, figure: "Hexagon", color: 'blue' },
-          { name: "Address", iskey: false, figure: "Hexagon", color: 'blue' }]
-        },
-        {
-          key: "Categories",
-          items: [{ name: "CategoryID", iskey: true, figure: "Decision", color: 'red' },
-          { name: "CategoryName", iskey: false, figure: "Hexagon", color: 'blue' },
-          { name: "Description", iskey: false, figure: "Hexagon", color: 'blue' },
-          { name: "Picture", iskey: false, figure: "TriangleUp", color: 'pink' }]
-        },
-        {
-          key: "Order Details",
-          items: [{ name: "OrderID", iskey: true, figure: "Decision", color: 'red' },
-          { name: "ProductID", iskey: true, figure: "Decision", color: 'red' },
-          { name: "UnitPrice", iskey: false, figure: "Circle", color: 'green' },
-          { name: "Quantity", iskey: false, figure: "Circle", color: 'green' },
-          { name: "Discount", iskey: false, figure: "Circle", color: 'green' }]
-        },
-      ],
-      linkDataArray: [
-        { from: "Products", to: "Suppliers", text: "0..N", toText: "1" },
-        { from: "Products", to: "Categories", text: "0..N", toText: "1" },
-        { from: "Order Details", to: "Products", text: "0..N", toText: "1" }
-      ],
+      nodeDataArray: NODE_DATA_ARRAY,
+      linkDataArray: LINK_DATA_ARRAY,
       modelData: {
         canRelink: true
       },
       selectedKey: null,
-      skipsDiagramUpdate: false
+      skipsDiagramUpdate: false,
+      openTabs: []
     };
+    // Maps to store key -> arr index for quick lookups
+    this.mapNodeKeyIdx = new Map();
+    this.mapLinkKeyIdx = new Map();
+    this.refreshNodeIndex(this.state.nodeDataArray);
+    this.refreshLinkIndex(this.state.linkDataArray);
     // bind handler methods
     this.handleDiagramEvent = this.handleDiagramEvent.bind(this);
     this.handleModelChange = this.handleModelChange.bind(this);
     this.handleRelinkChange = this.handleRelinkChange.bind(this);
     this.handleDiagramChange = this.handleDiagramChange.bind(this);
+  }
+  /**
+ * Update map of node keys to their index in the array.
+ */
+  refreshNodeIndex(nodeArr) {
+    this.mapNodeKeyIdx.clear();
+    nodeArr.forEach((n, idx) => {
+      this.mapNodeKeyIdx.set(n.key, idx);
+    });
+  }
+
+  /**
+   * Update map of link keys to their index in the array.
+   */
+  refreshLinkIndex(linkArr) {
+    this.mapLinkKeyIdx.clear();
+    linkArr.forEach((l, idx) => {
+      this.mapLinkKeyIdx.set(l.key, idx);
+    });
+  }
+
+  /**
+     * Handle any relevant DiagramEvents, in this case just selection changes.
+     * On ChangedSelection, find the corresponding data and set the selectedData state.
+     * @param e a GoJS DiagramEvent
+     */
+  handleDiagramChange(e) {
+    const name = e.name;
+    switch (name) {
+      case "ChangedSelection": {
+        const sel = e.subject.first();
+        this.setState(
+          produce(draft => {
+            if (sel) {
+              if (sel instanceof go.Node) {
+                const idx = this.mapNodeKeyIdx.get(sel.key);
+                if (idx !== undefined && idx >= 0) {
+                  const nd = draft.nodeDataArray[idx];
+                  draft.selectedData = nd;
+                }
+              } else if (sel instanceof go.Link) {
+                const idx = this.mapLinkKeyIdx.get(sel.key);
+                if (idx !== undefined && idx >= 0) {
+                  const ld = draft.linkDataArray[idx];
+                  draft.selectedData = ld;
+                }
+              }
+            } else {
+              draft.selectedData = null;
+            }
+          })
+        );
+        break;
+      }
+      case "ExternalObjectsDropped": {
+        const drop = e.subject.first();
+        alert(`Dropped key: ${drop.data.key}, text: ${drop.data.text}`);
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   /**
@@ -189,46 +227,14 @@ class GoJsReact extends React.Component {
     this.setState({ modelData: { canRelink: value }, skipsDiagramUpdate: false });
   }
 
-  /**
- * Handle any relevant DiagramEvents, in this case just selection changes.
- * On ChangedSelection, find the corresponding data and set the selectedData state.
- * @param e a GoJS DiagramEvent
- */
-  handleDiagramChange(e) {
-    const name = e.name;
-    switch (name) {
-      case "ChangedSelection": {
-        const sel = e.subject.first();
-        this.setState(
-          produce(draft => {
-            if (sel) {
-              if (sel instanceof go.Node) {
-                const idx = this.mapNodeKeyIdx.get(sel.key);
-                if (idx !== undefined && idx >= 0) {
-                  const nd = draft.nodeDataArray[idx];
-                  draft.selectedData = nd;
-                }
-              } else if (sel instanceof go.Link) {
-                const idx = this.mapLinkKeyIdx.get(sel.key);
-                if (idx !== undefined && idx >= 0) {
-                  const ld = draft.linkDataArray[idx];
-                  draft.selectedData = ld;
-                }
-              }
-            } else {
-              draft.selectedData = null;
-            }
-          })
-        );
-        break;
-      }
-      case "ExternalObjectsDropped": {
-        const drop = e.subject.first();
-        alert(`Dropped key: ${drop.data.key}, text: ${drop.data.text}`);
-        break;
-      }
-      default:
-        break;
+  onListClick(index) {
+    let tempData = [...this.state.openTabs]
+
+    if (this.state.openTabs.includes(index)) {
+      tempData = tempData.filter(data => data !== index)
+      this.setState({ openTabs: [...tempData] })
+    } else {
+      this.setState({ openTabs: [...this.state.openTabs, index] })
     }
   }
 
@@ -239,25 +245,37 @@ class GoJsReact extends React.Component {
     }
 
     return (
-      <div>
-        <DiagramWrapper
-          nodeDataArray={this.state.nodeDataArray}
-          linkDataArray={this.state.linkDataArray}
-          modelData={this.state.modelData}
-          skipsDiagramUpdate={this.state.skipsDiagramUpdate}
-          onDiagramEvent={this.handleDiagramEvent}
-          onModelChange={this.handleModelChange}
-          onDiagramChange={this.handleDiagramChange}
-        />
-        <label>
-          Allow Relinking?
-          <input
-            type='checkbox'
-            id='relink'
-            checked={this.state.modelData.canRelink}
-            onChange={this.handleRelinkChange} />
-        </label>
-        {selKey}
+      <div className='flexBox'>
+        <div className='leftBar'>
+          <label>
+            Allow Relinking?
+            <input
+              type='checkbox'
+              id='relink'
+              checked={this.state.modelData.canRelink}
+              onChange={this.handleRelinkChange} />
+          </label>
+          {selKey}
+          <div>
+            <ul>
+              {NODE_DATA_ARRAY.map((table, index) =>
+                <li onClick={() => this.onListClick(index)} key={table.key} > {table.key}
+                  {this.state.openTabs.includes(index) && table.items.map((item) => <ol key={table.name}>
+                    {item.name}</ol>)} </li>)}
+            </ul>
+          </div>
+        </div>
+        <div className='erd'>
+          <DiagramWrapper
+            nodeDataArray={this.state.nodeDataArray}
+            linkDataArray={this.state.linkDataArray}
+            modelData={this.state.modelData}
+            skipsDiagramUpdate={this.state.skipsDiagramUpdate}
+            onModelChange={this.handleModelChange}
+            onDiagramChange={this.handleDiagramChange}
+          />
+
+        </div>
       </div>
     );
   }

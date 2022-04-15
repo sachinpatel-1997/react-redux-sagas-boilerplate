@@ -27,6 +27,18 @@ code {
   width: 100%;
 }
 .diagram-component{
-  height: 100vh;
+  height: 90vh;
   overflow: auto;
+}
+.overview-component {
+  height: 200px !important;
+  width: 400px !important;
+  z-index: 99;
+  position: absolute;
+  right: 5px;
+  bottom: 50px;
+  width: 150px;
+  height: 100px;
+  background-color: aliceblue;
+  border: 1px solid black;
 }
