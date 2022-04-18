@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { interceptor } from 'utils/interceptor'
 import SqllabContainer from 'containers/Sqllab'
-import GoJsReact from 'containers/GoJsReact'
+import ERDContainer from 'containers/ERD'
 
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
     <Fragment>
       <Switch>
         <Route exact path="/sqllab" component={SqllabContainer} />
-        <Route exact path="/erd" component={GoJsReact} />        
+        <Route exact path="/erd" component={ERDContainer} />        
       </Switch>
     </Fragment>
   )

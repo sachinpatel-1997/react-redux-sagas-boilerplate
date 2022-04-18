@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as go from 'gojs';
 import { produce } from "immer";
 
-import { DiagramWrapper } from './components/DiagramWrapper';
-import { NODE_DATA_ARRAY, LINK_DATA_ARRAY } from './Constant'
+import { DiagramWrapper } from '../../components/ERD/DiagramWrapper';
+import { NODE_DATA_ARRAY, LINK_DATA_ARRAY } from '../../constants/Erd'
 
-import './GoJsReact.css'
+import './ERD.css'
 
-class GoJsReact extends React.Component {
+class ERDContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -145,6 +145,8 @@ class GoJsReact extends React.Component {
     const modifiedLinkData = obj.modifiedLinkData;
     const removedLinkKeys = obj.removedLinkKeys;
     const modifiedModelData = obj.modelData;
+    const modifiedLinkMap = obj.modifiedLinkMap;
+
 
     console.log(obj);
 
@@ -294,4 +296,4 @@ class GoJsReact extends React.Component {
   }
 }
 
-export default GoJsReact
+export default ERDContainer

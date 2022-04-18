@@ -1,0 +1,49 @@
+label {
+  font: 300 1rem Roboto, helvetica, sans-serif;
+  color: #212121; /* Grey 900 */
+  display: block;
+  padding: 2px;
+}
+
+p {
+  font: 300 1rem Roboto, helvetica, sans-serif;
+  color: #212121; /* Grey 900 */
+}
+
+.diagram-component{
+  height: 400px;
+}
+
+.flexBox{
+  display: flex;
+}
+
+.leftBar{
+  width: 20%;
+  margin-top: 220px;
+}
+.erd{
+  width: 80%;
+}
+
+.diagram-component{
+  height: 90vh;
+  overflow: auto;
+}
+.overview-component {
+  height: 200px !important;
+  width: 350px !important;
+  z-index: 99;
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  bottom: 50px;
+  width: 150px;
+  height: 100px;
+  background-color: aliceblue;
+  border: 1px solid black;
+}
+.leftBar{
+  width: 20%;
+  margin-top: 250px;
+}
