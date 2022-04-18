@@ -5,18 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDatabase, getData } from 'middleware/sqllab'
 const SqllabComponent = () => {
    const [ sql, setSql ] = useState(null)
-   const dispatch = useDispatch()
+   const [ value, setValue ] = useState(null)
+   const dispatch = useDispatch();
    const {database} = useSelector((state) => state.sqllab.database)
-   const [ columns , setColumns ] = useState({
-      id: null,
-      name: null
-   })
+   const [selectedTable, setSelectedTable] = useState('');
    const data = useSelector((state) => state.sqllab.data)
 
-   const tableData = database?.tables || []
+   const tableData = database && database.tables || []
+   const col = tableData[0] && tableData[0].columns || {}
+   const [ columns , setColumns ] = useState(col)
+
    useEffect(() => {
       dispatch(getDatabase())
    },[])
+
+   useEffect(() => {
+      setColumns(col)
+   },[col])
 
 
    const extendedTables = []
@@ -31,23 +36,53 @@ const SqllabComponent = () => {
            return 'Person'
          else if (sql.toLowerCase().trim() === 'select * from product')
            return 'Product'
+         else if (sql.toLowerCase().includes('select * from person'))
+           return 'Person'
+         else if (sql.toLowerCase().includes('select * from product'))
+           return 'Product'
+         else if (sql.toLowerCase().includes('select * from transactions'))
+           return 'Transactions'
+         else if (sql.toLowerCase().trim() === 'select * from block')
+           return 'Block'
+         else if (sql.toLowerCase().trim() === 'select * from wallet')
+           return 'Wallet'
+         else if (sql.toLowerCase().includes('select * from block'))
+           return 'Block'
+         else if (sql.toLowerCase().includes('select * from wallet'))
+           return 'Wallet'
          else
           return null
       }
-      
+
    }
 
+   const getVariable = () => {
+      if(sql){
+         const match = sql.match(/[^{}]*(?=\})/g)
+        return match && match[0]
+      }
+   }
+
+   const handleChange = (event) => {
+      event && setValue(event.target.value)
+   }
+
+
    const runQuery = () => {
-      dispatch(getData(getId()))
+      dispatch(getData(getId(),getVariable(), value))
    }
    const handleTableChange = (e) => {
       const column = tableData.filter((item) => item.label ===e.target.value)[0] || {}
       setColumns({ ... column.columns })
+      setSelectedTable(e.target.value)
    }
+
    const handleColumns = (data) => {
       const column = tableData.filter((item) => item.label ===data.name)[0] || {}
       setColumns({ ... column.columns })
+      setSelectedTable(data.name)
    }
+
    return(
    <div className='row'>
       <div className='col-3'>
@@ -57,7 +92,8 @@ const SqllabComponent = () => {
          <label>select tables</label>
          <select onChange={ handleTableChange }>
             {
-               tableData.map((item) =>  <option value={item.label} >{item.label}</option>)
+               tableData && tableData.map((item) =>
+               <option value={item.label} selected={selectedTable === item.label} >{item.label}</option>)
             }
          </select>
 
@@ -66,6 +102,9 @@ const SqllabComponent = () => {
             }</ul>
       </div>
       <div className='col-9'>
+      <h5>Sqllab Editor</h5>
+      <label>Variable : {getVariable()}</label>
+      <input type="text" id="fname" name="fname" onChange={(e) => handleChange(e)}/>
       <AceEditorWrapper
          value={sql}
          tables={tableData}
@@ -79,11 +118,18 @@ const SqllabComponent = () => {
       <Button variant="outline-primary">Save Query</Button>
       {!data && <p>No records found</p>}
       <table>{
-           data?.map((item) => {
-            return <tr><td>{item.id}</td><td>{item.name}</td></tr>
+           data && data.map((item, key) => {
+            return <tbody>
+             {Object.keys(item).map(function(value, idx) {
+               return <tr key={idx}>
+                 <td>{value}</td>
+                 <td>{item[value]}</td>
+               </tr>
+             })}
+           </tbody>
            })
          }
-       
+
       </table>
       </div>
    </div>

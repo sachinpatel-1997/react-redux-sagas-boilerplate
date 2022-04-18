@@ -2,28 +2,63 @@
 
    "database": {
         "name": "example",
-        "tables": [{
+        "tables": [
+         {
             "extra": null,
-            "label": "Person",
+            "label": "Block",
             "schema": "public",
-            "title": "Person",
+            "title": "Block",
             "type": "table",
-            "value": "Person",
+            "value": "Block",
             "columns": {
-                "id": null,
-                "name": null
+                "hash": null,
+                "number": null,
+                "timestamp" : null,
+                "miner" : null,
+                "difficulty": null,
+                "size": null,
+                "gasUsed": null,
+                "gasLimit" :null,
+                "baseFeePerGas" : null
             }
-         },{
+         },
+         {
             "extra": null,
-            "label": "Product",
+            "label": "Wallet",
             "schema": "public",
-            "title": "Product",
+            "title": "Wallet",
             "type": "table",
-            "value": "Product",
+            "value": "Wallet",
             "columns": {
-                "id": null,
-                "name": null,
-                "product_type": null
+                "address": null,
+                "balance": null
+            }
+         },
+         {
+            "extra": null,
+            "label": "Transactions",
+            "schema": "public",
+            "title": "Transactions",
+            "type": "table",
+            "value": "Transactions",
+            "columns": {
+                "block_slot": null,
+                "block_hash": null,
+                "required_signatures": null,
+                "readonly_signed_accounts": null,
+                "transaction_time": null,
+                "readonly_unsigned_accounts": null,
+                "transaction_hash": null,
+                "error": null,
+                "post_balances": [],
+                "pre_balances": [],
+                "recent_block_hash": null,
+                "fee": null,
+                "post_token_balances": [],
+                "pre_token_balances": [],
+                "signatures": [],
+                "status": null,
+                "signer": null
             }
          }]
    }
