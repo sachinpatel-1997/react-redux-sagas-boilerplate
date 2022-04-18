@@ -31,19 +31,7 @@ class ERDContainer extends React.Component {
     this.handleModelChange = this.handleModelChange.bind(this);
     this.handleRelinkChange = this.handleRelinkChange.bind(this);
     this.handleDiagramChange = this.handleDiagramChange.bind(this);
-
-    // collect all of the predefined arrowhead names
-    var arrowheads = go.Shape.getArrowheadGeometries().toKeySet().toArray();
-    if (arrowheads.length % 2 === 1) arrowheads.push("");  // make sure there's an even number
-
-    // create all of the link data, two arrowheads per link
-    var linkdata = [];
-    var i = 0;
-    for (var j = 0; j < arrowheads.length; j = j + 2) {
-      linkdata.push({ from: "Center", to: i++, toArrow: arrowheads[j], fromArrow: arrowheads[j + 1] });
-    }
-    console.log('111111111 linkdata', linkdata, 'arrowheads', arrowheads)
-
+    console.log('1111111 FigureGenerators' ,go.Shape.getFigureGenerators().toArray())
   }
   /**
  * Update map of node keys to their index in the array.

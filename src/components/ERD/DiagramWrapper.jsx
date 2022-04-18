@@ -90,9 +90,10 @@ export class DiagramWrapper extends React.Component {
       $(go.Panel, "Horizontal",
         $(go.Shape,
           { desiredSize: new go.Size(15, 15), strokeJoin: "round", strokeWidth: 3, stroke: null, margin: 2 },
-          new go.Binding("figure", "figure"),
-          new go.Binding("fill", "color"),
-          new go.Binding("stroke", "color")),
+          new go.Binding("fill", "fillColor"),
+          new go.Binding("stroke", "strokeColor"),
+          // bind the Shape.figure to the figure name, which automatically gives the Shape a Geometry
+          new go.Binding("figure", "figure")),
         $(go.TextBlock,
           {
             stroke: "#333333",
@@ -101,6 +102,34 @@ export class DiagramWrapper extends React.Component {
           new go.Binding("text", "name"))
       );
 
+    go.Shape.defineFigureGenerator("Key", function (shape, w, h) {
+      var geo = new go.Geometry();
+      var fig = new go.PathFigure(w * 1, h * .5, true);
+      geo.add(fig);
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .90, .40 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .50, .40 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .50, .35 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .45, .35 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .30, .20 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .15, .20 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, 0, .35 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, 0, .65 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .15, .80 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .30, .80 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .45, .65 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .50, .65 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .50, .6 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .60, .6 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .65, .55 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .70, .6 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .75, .55 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .80, .6 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .85, .575 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Line, w * .9, 0.60 * h).close());
+      fig.add(new go.PathSegment(go.PathSegment.Move, 0.17 * w, 0.425 * h));
+      fig.add(new go.PathSegment(go.PathSegment.Arc, 270, 360, 0.17 * w, 0.5 * h, 0.075 * w, 0.075 * h).close());
+      return geo;
+    });
     // define the Node template, representing an entity
     myDiagram.nodeTemplate =
       $(go.Node, "Auto",  // the whole node panel
@@ -147,7 +176,8 @@ export class DiagramWrapper extends React.Component {
               itemTemplate: itemTempl
             },
             new go.Binding("itemArray", "items"))
-        )  // end Table Panel
+
+        )  // end Table Panel,
       );  // end Node
 
     // define the Link template, representing a relationship
