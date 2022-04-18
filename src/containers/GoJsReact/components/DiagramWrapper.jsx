@@ -159,10 +159,11 @@ export class DiagramWrapper extends React.Component {
           reshapable: true,
           routing: go.Link.AvoidsNodes,
           corner: 5,
-          curve: go.Link.JumpOver
+          curve: go.Link.JumpOver,
         },
         $(go.Shape,  // the link shape
-          { stroke: "#303B45", strokeWidth: 2.5 }),
+          // the first element is assumed to be main element: as if isPanelMain were true
+          { stroke: "gray", strokeWidth: 2 }),
         $(go.TextBlock,  // the "from" label
           {
             textAlign: "center",
@@ -183,8 +184,10 @@ export class DiagramWrapper extends React.Component {
             segmentOrientation: go.Link.OrientUpright
           },
           new go.Binding("text", "toText")),
-        // $(go.Shape, {},
-        //   new go.Binding("toArrow", "toArrow")),
+        $(go.Shape,  // the "from" arrowhead
+          new go.Binding("fromArrow", "fromArrow")),
+        $(go.Shape,  // the "to" arrowhead
+          new go.Binding("toArrow", "toArrow")),
       );
 
     return myDiagram;

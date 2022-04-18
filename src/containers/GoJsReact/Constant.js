@@ -8,7 +8,7 @@ export const NODE_DATA_ARRAY = [
   {
     key: "Transaction",
     items: [
-      { name: "hash: string", iskey: true, figure: "key", color: 'yellow' },
+      { name: "hash: string", iskey: true, figure: "Key", color: 'yellow' },
       { name: "from_address: string", iskey: false, figure: "Key", color: 'pink' },
       { name: "to_address: string", iskey: false, figure: "Border", color: 'pink' },
       { name: "value: integer", iskey: false, figure: "Hexagon", color: 'pink' },
@@ -161,16 +161,16 @@ export const NODE_DATA_ARRAY = [
 ]
 
 export const LINK_DATA_ARRAY = [
-  { from: "Wallet", to: "Transaction", text: "1", toText: "0..1" },
-  { from: "Block", to: "Transaction", text: "1", toText: "0..N" },
-  { from: "Transaction", to: "TokenTransfer", text: "1", toText: "0..N" },
-  { from: "Transaction", to: "EventLog", text: "1", toText: "0..N" },
-  { from: "Topic", to: "EventLog", text: "1", toText: "1" },
-  { from: "EventLog", to: "DataFormat", text: "1", toText: "1" },
-  { from: "Transaction", to: "Contract", text: "1", toText: "0..1" },
-  { from: "FungibleContract", to: "Contract", text: "0..N", toText: "1" },
-  { from: "NonFungibleContract", to: "Contract", text: "0..1", toText: "1" },
-  { from: "NonFungibleToken", to: "NonFungibleContract", text: "1", toText: "0..N" },
-  { from: "NonFungibleToken", to: "NFTAttributes", text: "N", toText: "1" },
-  { from: "Contract", to: "ContractType", text: "1", toText: "1" },
+  { from: "Wallet", to: "Transaction", text: "1", toText: "0..1", toArrow: 'DoubleLine' },
+  { from: "Block", to: "Transaction", text: "1", toText: "0..N", toArrow: 'DoubleLine' },
+  { from: "Transaction", to: "TokenTransfer", text: "1", toText: "0..N", toArrow: 'DoubleLine' },
+  { from: "Transaction", to: "EventLog", text: "1", toText: "0..N", toArrow: 'DoubleLine' },
+  { from: "Topic", to: "EventLog", text: "1", toText: "1", toArrow: 'DoubleLine' },
+  { from: "EventLog", to: "DataFormat", text: "1", toText: "1", toArrow: 'DoubleLine' },
+  { from: "Transaction", to: "Contract", text: "1", toText: "0..1", toArrow: 'DoubleLine' },
+  { from: "FungibleContract", to: "Contract", text: "0..N", toText: "1", toArrow: 'DoubleLine' },
+  { from: "NonFungibleContract", to: "Contract", text: "0..1", toText: "1", toArrow: 'DoubleLine' },
+  { from: "NonFungibleToken", to: "NonFungibleContract", text: "1", toText: "0..N", toArrow: 'DoubleLine' },
+  { from: "NonFungibleToken", to: "NFTAttributes", text: "N", toText: "1", toArrow: 'DoubleLine' },
+  { from: "Contract", to: "ContractType", text: "1", toText: "1", toArrow: 'DoubleLine' },
 ]
