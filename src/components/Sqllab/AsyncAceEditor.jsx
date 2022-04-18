@@ -19,9 +19,9 @@ export default function AsyncAceEditor(aceModules, { defaultMode, defaultTheme, 
         const { default: ReactAceEditor } = await import('react-ace');
         await Promise.all(aceModules.map(x => aceModuleLoaders[x]()));
         const inferredMode = defaultMode ||
-            aceModules.find(x => x.startsWith('mode/'))?.replace('mode/', '');
+            aceModules.find(x => x.startsWith('mode/')).replace('mode/', '');
         const inferredTheme = defaultTheme ||
-            aceModules.find(x => x.startsWith('theme/'))?.replace('theme/', '');
+            aceModules.find(x => x.startsWith('theme/')).replace('theme/', '');
         return forwardRef(function ExtendedAceEditor({ keywords, mode = inferredMode, theme = inferredTheme, tabSize = defaultTabSize, defaultValue = '', ...props }, ref) {
             if (keywords) {
                 const langTools = acequire('ace/ext/language_tools');

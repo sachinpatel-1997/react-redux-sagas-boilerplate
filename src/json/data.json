@@ -17,9 +17,87 @@
     },{
         "id": 2,
         "name": "Fan"
-       
+
     },{
         "id": 3,
         "name": "Televison"
+    }],
+
+    "Block": [{
+        "hash": "#32522525252",
+        "number": 1,
+        "timestamp" : 35223225,
+        "miner" : "Clark",
+        "difficulty": 1,
+        "size": 10,
+        "gasUsed": 4,
+        "gasLimit" :10,
+        "baseFeePerGas" : 3
+    },{
+        "hash": "#32522533252",
+        "number": 2,
+        "timestamp" : 2342342,
+        "miner" : "Michael",
+        "difficulty": 0,
+        "size": 23,
+        "gasUsed": 8,
+        "gasLimit" :9,
+        "baseFeePerGas" : 38
+    },{
+        "hash": "#325277752",
+        "number": 3,
+        "timestamp" : 2488876,
+        "miner" : "Hin",
+        "difficulty": 0,
+        "size": 5,
+        "gasUsed": 2,
+        "gasLimit" :19,
+        "baseFeePerGas" : 1
+    }],
+
+    "Wallet": [{
+        "address": "15 Downstreet",
+        "balance": 150.00
+        },{
+        "address": "16 Upstreet",
+        "balance": 250.00
+        },{
+        "address": "Norway down",
+        "balance": 350.00
+        }],
+
+
+    "Transactions": [{
+        "block_slot": 129705867,
+        "block_hash": "6YT282BqNsSZMEmJofuyuMaYsYxGs3Fzsf8wLhKzonSh",
+        "required_signatures": 1,
+        "readonly_signed_accounts": 0,
+        "transaction_time": 1649942671,
+        "readonly_unsigned_accounts": 0,
+        "transaction_hash": "4G5noZmRv4VjZ7JVqVi1PDQFkECHY87L4Y3Tv7X118KKRRQGy4vidopevjBNxPKxPja4ww4NRoe4aBU7D4UN5coR",
+        "error": null,
+        "post_balances": [
+            29013934053,
+            93102801075,
+            143487360,
+            1169280,
+            1
+        ],
+        "pre_balances": [
+            29013939053,
+            93102801075,
+            143487360,
+            1169280,
+            1
+        ],
+        "recent_block_hash": "6FPJEYqgmLB49iHycta2PKURYMca7cH7C5E92ecCgTUB",
+        "fee": 5000,
+        "post_token_balances": [],
+        "pre_token_balances": [],
+        "signatures": [
+            "4G5noZmRv4VjZ7JVqVi1PDQFkECHY87L4Y3Tv7X118KKRRQGy4vidopevjBNxPKxPja4ww4NRoe4aBU7D4UN5coR"
+        ],
+        "status": "success",
+        "signer": "9At1zZEmGvuHHjDCh2mzfu7EKfn58xgJ4QKKoN9H43dq"
     }]
  }
