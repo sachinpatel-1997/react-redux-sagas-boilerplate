@@ -4,11 +4,10 @@ import {Navbar} from 'react-bootstrap'
 import logo from '../../assets/images/logo.png'
 import history from 'utils/history'
 
-
 const Header = (props) => {
   return (
-    <Navbar bg="dark" expand="lg">
-      <nav class="navbar navbar-dark bg-dark">
+    <Navbar bg="dark" expand="lg" >
+      <nav class="navbar navbar-dark"  >
     <a class="navbar-brand" href="#">
       <img src={logo} alt="" width="30%" height="20%" />
     </a>
@@ -25,7 +24,7 @@ const Header = (props) => {
         </li>
       </ul>
     </div>
-</nav>
+    </nav>
     </Navbar>
   )
 }

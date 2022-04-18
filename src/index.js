@@ -8,8 +8,9 @@ import * as serviceWorker from './serviceWorker'
 import configureStore from './store'
 import './index.css'
 import 'react-toastify/dist/ReactToastify.css'
-import browserHistory from 'utils/history'; 
+import browserHistory from 'utils/history';
 import Layout from 'common/Layout'
+import "react-table-6/react-table.css"
 // import { initializeFirebase, askForPermissionToReceiveNotifications } from './push-notification'
 // import * as firebase from 'firebase'
 

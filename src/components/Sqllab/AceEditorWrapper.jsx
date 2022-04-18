@@ -4,8 +4,8 @@ import "ace-builds/src-noconflict/mode-sql";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools"
 import { acequire } from 'ace-builds/src-noconflict/ace';
-import { TABLE_AUTOCOMPLETE_SCORE, 
-    COLUMN_AUTOCOMPLETE_SCORE, 
+import { TABLE_AUTOCOMPLETE_SCORE,
+    COLUMN_AUTOCOMPLETE_SCORE,
     SQL_FUNCTIONS_AUTOCOMPLETE_SCORE,
     SCHEMA_AUTOCOMPLETE_SCORE
 } from 'constants/index'
@@ -16,7 +16,7 @@ const AceEditorWrapper = (props) => {
 
    const { tables, columns, schemas,handleColumns, handleChange, extendedTables, sql } = props
    const [ words, setWords ] = useState([])
- 
+
    const setAutoCompleter = useCallback((tables) => {
     const tableWords = tables.map(t => {
         const tableName = t.value;
@@ -83,7 +83,7 @@ const AceEditorWrapper = (props) => {
     useEffect(() => {
         tables.length > 0 && setAutoCompleter(tables)
       },[setAutoCompleter, tables])
-   
+
    return(
    <div>
 
@@ -102,8 +102,7 @@ const AceEditorWrapper = (props) => {
         schemas={[]}
         editorProps={{ $blockScrolling: true }}
         enableLiveAutocompletion={true}
-        
-      //   annotations={this.getAceAnnotations()}
+        placeholder="Write some sql here...."
       />
 
    </div>

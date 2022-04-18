@@ -3,6 +3,8 @@ import AceEditorWrapper from './AceEditorWrapper';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDatabase, getData } from 'middleware/sqllab'
+import ReactTable from "react-table-6";
+
 const SqllabComponent = () => {
    const [ sql, setSql ] = useState(null)
    const [ value, setValue ] = useState(null)
@@ -83,14 +85,23 @@ const SqllabComponent = () => {
       setSelectedTable(data.name)
    }
 
+   const colArray = Object.keys(columns);
+   const tableColArray = Object.fromEntries(
+      colArray.map(key => [key, {
+         Header: key,
+         accessor: key
+       }])
+   )
+   const tableCol = Object.values(tableColArray)
+
    return(
    <div className='row'>
       <div className='col-3'>
-         <label>select database</label>
-         <select><option>example</option></select><br/>
+         <label>Select Database</label>
+         <select className="form-select" ><option>example</option></select><br/>
 
-         <label>select tables</label>
-         <select onChange={ handleTableChange }>
+         <label>Select Tables</label>
+         <select className="form-select" onChange={ handleTableChange }>
             {
                tableData && tableData.map((item) =>
                <option value={item.label} selected={selectedTable === item.label} >{item.label}</option>)
@@ -102,7 +113,6 @@ const SqllabComponent = () => {
             }</ul>
       </div>
       <div className='col-9'>
-      <h5>Sqllab Editor</h5>
       <label>Variable : {getVariable()}</label>
       <input type="text" id="fname" name="fname" onChange={(e) => handleChange(e)}/>
       <AceEditorWrapper
@@ -114,23 +124,19 @@ const SqllabComponent = () => {
          handleChange={onChange}
          schemas={[]}
       />
-      <Button onClick={runQuery}>Run</Button>
-      <Button variant="outline-primary">Save Query</Button>
-      {!data && <p>No records found</p>}
-      <table>{
-           data && data.map((item, key) => {
-            return <tbody>
-             {Object.keys(item).map(function(value, idx) {
-               return <tr key={idx}>
-                 <td>{value}</td>
-                 <td>{item[value]}</td>
-               </tr>
-             })}
-           </tbody>
-           })
-         }
+      <div className="float-right">
+         <Button onClick={runQuery}>Run</Button>
+         <Button variant="outline-primary">Save Query</Button>
+      </div>
 
-      </table>
+      {!data && <p>No records found</p>}
+      {data && !!data.length &&
+      <ReactTable
+         data={data}
+         columns={tableCol}
+         defaultPageSize = {5}
+         showPagination={false}
+      />}
       </div>
    </div>
    )
