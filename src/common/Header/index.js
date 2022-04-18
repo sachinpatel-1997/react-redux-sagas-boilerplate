@@ -18,7 +18,7 @@ const Header = (props) => {
           <a class="nav-link" href="#" onClick={() => history.push('/sqllab')}>SQL Editor <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">ERD</a>
+          <a class="nav-link" href="/erd">ERD</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Query Builder</a>

@@ -29,13 +29,15 @@ p {
 .diagram-component{
   height: 90vh;
   overflow: auto;
+  border: 1px solid;
 }
+
 .overview-component {
   height: 200px !important;
   width: 350px !important;
   z-index: 99;
   position: absolute;
-  top: 70px;
+  top: 100px;
   left: 10px;
   bottom: 50px;
   width: 150px;
@@ -43,6 +45,7 @@ p {
   background-color: aliceblue;
   border: 1px solid black;
 }
+
 .leftBar{
   width: 20%;
   margin-top: 250px;
