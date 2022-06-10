@@ -1,14 +1,14 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Header from '../Header';
-import Footer from '../Footer';
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Header from "../Header";
+import Footer from "../Footer";
 
 const Layout = (props) => {
   const [isScrolled, setScroll] = useState(window.scrollY > 30);
   useEffect(() => {
-    document.addEventListener('scroll', handleScroll);
+    document.addEventListener("scroll", handleScroll);
     return () => {
-      document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -27,7 +27,11 @@ const Layout = (props) => {
 };
 
 Layout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array, PropTypes.object]),
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.object,
+  ]),
 };
 
 export default Layout;

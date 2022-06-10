@@ -73,14 +73,17 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 ### Folder structure writeup
-### Public - 
+
+### Public -
+
 This folder contains all the static assets including index.html, images & css that will be injected into the build folder created from the command npm run build.Here we also have manifest. json , where we specify basic metadata about extensions such as the name and version, and can also specify aspects of your extension's functionality, one can configure to make an app PWA. Along with that it also has a favicon & images folder that has common image assets in it.
 
-### src - 
+### src -
+
 Under src folder we have various sub folders that are important in maintaining the good understandable code structure:
    ## actions -
       The actions folder consist of an actionType and index file the actionType has const to identify actions uniquely and the index files has actions definitions that needs to be dispatched
-   ## assets - 
+   ## assets -
       assets folder further consist of images folder that is required to put images and other assets to be accessed within src
    ## common -
       the common folder consist of the components that common for all other components and are frequently used, like header, footer and a common layout
@@ -90,15 +93,15 @@ Under src folder we have various sub folders that are important in maintaining t
        as the name suggests the constant folders has the file that consist logically grouped constants like static text and urls used in the app.
    ## container -
        the container consists of files that imports a stateless component and wraps it with actions and state to be able to access store and dispatch necessary actions.
-   ## reducer - 
+   ## reducer -
        this folder consists of different reducers based on the types of actions and these reducer functions are finally responsible for managing the data store, we have a root reducer where we combine all the reducers that are logically segregated and export them as one combine reducer.
    ## saga -
         Redux-saga is a redux middleware library that makes handling side effects in redux app nice and simple. In this folder we have a different saga file corresponding to each action and request js that has different functions defined that are a part of axios instance with different configs. Also it consists of a rootsaga.js file that combines all different component specific sagas into one rootsaga.
    ## service -
         the service folder consists of api js file that has the instance of axios defined with all the required configs to make a rest call.
    ## utils -
-        The utils folder consist of all the utility part of app that we would need frequently in different parts of app like 
-              a) the formUtils has different form components along with validator, 
+        The utils folder consist of all the utility part of app that we would need frequently in different parts of app like
+              a) the formUtils has different form components along with validator,
               b) also it has history js utils that we might need to route logically between views,
               c) interceptor js that is used to intercept the request like adding tokens,
               d) notification js build to display various alert notifications on the top either corners in case of success, alert, info or warnings to be shown to user
@@ -114,19 +117,34 @@ Under src folder we have various sub folders that are important in maintaining t
    ## store js -
         this file is important in terms of implementing redux in our app the store is created here using the middleware
 
-### babelrc js - 
+### babelrc js -
+
 would be useful if you want to run certain transformations / plugins on a subset of files /directories.
-### .env - 
+
+### .env -
+
 This is the file where we write all our environment variables like the api base url and other keys.
-### .gitignore - 
+
+### .gitignore -
+
 This is the file where we mention the files and folder to be ignored by our versioning tool like git
+
 ### babel.config js -
+
 This establishes Babel's core concept of the base directory of your repository. You can place all of your repo configuration in the root babel.config
-### jest-setup js - 
+
+### jest-setup js -
+
 this is the file where we declare out adapter that are useful in terms of unit testing code
-### jsconfig js - 
+
+### jsconfig js -
+
 the js config js consist of declaration for absolute routing, the paths here must be predefined
-### package json - 
+
+### package json -
+
 this is the heart of a react app that has all information about the package dependency, dev dependency and app info
-### test-env js - 
+
+### test-env js -
+
 this is the file configuration for the env file.

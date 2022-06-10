@@ -1,13 +1,13 @@
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { toast } from 'react-toastify';
-import App from 'containers/App';
-import * as serviceWorker from './serviceWorker';
-import configureStore from './store';
-import './index.css';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { toast } from "react-toastify";
+import App from "containers/App";
+import * as serviceWorker from "./serviceWorker";
+import configureStore from "./store";
+import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
 // import { initializeFirebase, askForPermissionToReceiveNotifications } from './push-notification'
 // import * as firebase from 'firebase'
 
@@ -16,12 +16,12 @@ toast.configure();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Suspense fallback={'Loading...'}>
+      <Suspense fallback={"Loading..."}>
         <App />
       </Suspense>
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // initialize firebase for push notification.
